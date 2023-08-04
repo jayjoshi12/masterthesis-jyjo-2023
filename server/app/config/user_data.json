@@ -1,0 +1,34 @@
+{
+"users": [
+        {
+            "role": "admin",
+            "username":"krutika123",
+            "email":"krutikavaghasiya@gmail.com",
+            "password":"krutika123"
+        },
+        {
+            "role": "student",
+            "username":"hardik123",
+            "email":"hardikpandya@gmail.com",
+            "password":"hardik123"
+        },
+        {
+            "role": "faculty",
+            "username":"jay123",
+            "email":"jayjoshi123@gmail.com",
+            "password":"Jay@123"
+        },
+        {
+            "role": "leader",
+            "username":"sidh123",
+            "email":"sidhjoshi@gmail.com",
+            "password":"sidh123"
+        },
+        {
+            "role": "student",
+            "username":"meet123",
+            "email":"meetjoshi@gmail.com",
+            "password":"meet123"
+        }
+    ]
+}

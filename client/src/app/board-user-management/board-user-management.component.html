@@ -1,0 +1,45 @@
+<div class="wrapper">
+    <div class="container">
+        <div id="header">
+          <h1>Users</h1>
+          <button id="create-button">
+            <a href="/create-user" class="link" routerLink="/create-user">Create User</a>
+          </button>
+        </div>
+        <p *ngIf="dataSource.data.length == 0">No users available.</p>
+        <table *ngIf="dataSource.data.length >0 " mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef> Username </th>
+            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef> Role </th>
+            <td mat-cell *matCellDef="let element"> {{element.roles[0].name}} </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element" id="actions"> 
+              <button id="edit-button">
+                <a href="/edit-user/{{element._id}}" class="link" routerLink="/edit-user/{{element._id}}">Edit</a>
+              </button>
+              <button (click)="deleteUser(element._id)" id="delete-button">
+                Delete
+              </button>
+            </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        
+    </div>
+  </div>
+  
+  

@@ -1,0 +1,97 @@
+<div class="container1">
+  <div class="back-button">
+    <a routerLink="/admin" routerLinkActive="active" class="btn btn-primary">Back</a>
+  </div>
+  <div class="container">
+    <table class="table">
+      <tr>
+        <th class="first-row" colspan="12">
+          <span class="title">Excursion Management</span>
+        </th>
+      </tr>
+      <tr>
+        <th class="process-info" colspan="3">
+            <h5>Process Name</h5>
+            <span>{{process.processName}}</span>
+            <h5>Process Owner</h5>
+            <span>{{process.owner.username}}</span>
+        </th>
+        <th >
+          <h5>Owner</h5>
+        </th>
+        <th >
+          <h5>Description</h5>
+        </th>
+        <th>
+          <h5>Documents</h5>
+        </th>
+        <th >
+          <h5>Deadlines</h5>
+        </th>
+        <th >
+          <h5>Exceptions</h5>
+        </th>
+        <th >
+          <h5>Optimization</h5>
+        </th>
+        <th >
+          <h5>Contributors</h5>
+        </th>
+        <th >
+          <h5>Notes</h5>
+        </th>
+        <th >
+          <h5>Completed</h5>
+        </th>
+      </tr>
+      <tr *ngFor="let step of process.steps">
+        <td>
+          {{step.stepId}}
+        </td>
+        <td colspan="2">
+          {{step.stepName}}
+        </td>
+        <td >
+          {{step.stepOwner}}
+        </td>
+        <td>
+          {{step.stepDescription}}
+        </td>
+        <td>
+          <span *ngFor="let file of step.stepFiles">
+            <div class="document-link" (click)="openFile(file.filename)">{{file.originalname}}</div>
+          </span>
+        </td>
+        <td >
+          {{step.stepDeadlines}}
+        </td>
+        <td >
+          {{step.stepExceptionsAndAssociatedRisks}}
+        </td>
+        <td >
+          {{step.stepOptimization}}
+        </td>
+        <td >
+          <span *ngFor="let contributor of step.stepContributors">
+            <div>{{contributor.name}}</div>
+          </span>
+        </td>
+        <td >
+          <span *ngFor="let contributor of step.stepContributors" >
+            <div>{{contributor.name}}:</div>
+            <ul>
+              <li *ngFor="let note of contributor.notes">{{note}}</li>
+            </ul>
+            <p *ngIf="contributor.notes.length == 0">No notes added yet</p>
+          </span>
+        </td>
+        <td >
+          <svg *ngIf="step.stepCompleted" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="green" class="bi bi-check2-square" viewBox="0 0 16 16">
+            <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z"/>
+            <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+          </svg>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

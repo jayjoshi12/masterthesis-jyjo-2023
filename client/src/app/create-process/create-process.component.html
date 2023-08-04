@@ -1,0 +1,451 @@
+<div class="wrapper">
+  <div class="container">
+      <form
+        name="form"
+        #f="ngForm"
+        novalidate
+      >
+        <div class="form-group">
+          <label for="process">Process Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="process"
+            [(ngModel)]="form.process"
+            required
+            #username="ngModel"
+          />
+        </div>
+        <!-- <div class="informedPerson">
+          <label for="informedPerson">Inform Person:</label>
+          <select
+            name="informedPerson"
+            [(ngModel)]="form.informedPerson"
+            multiple
+            required
+          >
+            <option selected disabled hidden>
+              {{form.informedPerson}}
+            </option>
+            <option *ngFor="let user of users" [value]="user.email">
+              {{ user.username }}
+            </option>
+          </select>
+        </div> -->
+        <div class="form-group step-form">
+          <h2>Inform Person</h2>
+          <ul class="list">
+            <li class="contributors-list" *ngFor="let person of process.informedPerson; let personIndex = index;">
+              {{person}}
+              <button class="delete-button" (click)="removePerson(personIndex)">Remove</button>
+            </li>
+          </ul>
+          <div class="step-form-fields">
+            <label for="person">Inform Person: </label>
+            <select
+              class="form-control"
+              name="person"
+              [(ngModel)]="person"
+            >
+              <option selected disabled>Select a person</option>
+              <option *ngFor="let user of users" [value]="user.username">
+                {{ user.username }}
+              </option>
+            </select>
+          </div>
+          <button 
+            type="submit" 
+            class="upload-button" 
+            [disabled]= "(person === 'Select a person')"
+            (click)="addPerson()"
+          >Add</button>
+        </div>
+        <div class="steps">
+          <cdk-accordion class="example-accordion" >
+            <cdk-accordion-item
+              *ngFor="let step of process.steps; let index = index;"
+              #accordionItem="cdkAccordionItem"
+              class="example-accordion-item"
+              role="button"
+              tabindex="0"
+              [attr.id]="'accordion-header-' + index"
+              [attr.aria-expanded]="accordionItem.expanded"
+              [attr.aria-controls]="'accordion-body-' + index">
+              <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
+                {{step.stepName }}
+                <span class="example-accordion-item-description">
+                  Click to {{ accordionItem.expanded ? 'close' : 'open' }}
+                </span>
+              </div>
+              <div
+                class="example-accordion-item-body"
+                role="region"
+                [style.display]="accordionItem.expanded ? '' : 'none'"
+                [attr.id]="'accordion-body-' + index"
+                [attr.aria-labelledby]="'accordion-header-' + index">
+                <button class="delete-button" (click)="deleteStep(index)">
+                  Delete Step
+                </button>
+                <mat-horizontal-stepper linear [labelPosition]="'bottom'" #stepper>
+                  <mat-step label="Name" [completed]="!error['name']">
+                    <p class="error" *ngIf="error['name']">Please provide name, owner and deadline of step.</p>
+                    <div class="form-group step-form">
+                      <div class="step-form-fields">
+                        <label for="stepName">Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="stepName"
+                          value={{step.stepName}}
+                          (change)="valuechange($event,index)"
+                          required
+                        />
+                      </div>
+                      <div class="step-form-fields">
+                        <label for="stepOwner">Owner</label>
+                        <select
+                          class="form-control"
+                          name="stepOwner"
+                          (change)="valuechange($event,index)"
+                          required
+                        >
+                          <option value={{step.stepOwner}} selected disabled hidden>
+                            {{step.stepOwner}}
+                          </option>
+                          <option *ngFor="let user of users" [value]="user.username">
+                            {{ user.username }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="step-form-fields">
+                        <label for="stepDeadlines">Deadlines</label>
+                        <input
+                          type="date"
+                          class="form-control"
+                          name="stepDeadlines"
+                          value= {{step.stepDeadlines}}
+                          (change)="valuechange($event,index)"
+                          required
+                        />
+                      </div>
+                      <div class="step-form-fields">
+                        <div></div>
+                        <button 
+                          class="next-button" 
+                          mat-button 
+                          matStepperNext
+                        >
+                          Next
+                        </button>
+                      </div>
+                    </div>
+                  </mat-step>
+                  <mat-step label="Description" >
+                    <div class="form-group step-form">
+                      <label for="stepDescription">Step Description</label>
+                      <textarea
+                        type="text"
+                        class="form-control"
+                        name="stepDescription"
+                        value={{step.stepDescription}}
+                        (change)="valuechange($event,index)"
+                        required
+                      ></textarea>
+                      <div class="step-form-fields">
+                        <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                        <button 
+                          class="next-button" 
+                          mat-button 
+                          matStepperNext
+                        >
+                          Next
+                        </button>
+                      </div>
+                    </div>
+                  </mat-step>
+                  <mat-step label="Exceptions and associated risks" >
+                    <div class="form-group step-form">
+                      <label for="stepExceptionsAndAssociatedRisks">Exceptions and associated risks</label>
+                      <textarea
+                        type="text"
+                        class="form-control"
+                        name="stepExceptionsAndAssociatedRisks"
+                        value={{step.stepExceptionsAndAssociatedRisks}}
+                        (change)="valuechange($event,index)"
+                        required
+                      ></textarea>
+                      <div class="step-form-fields">
+                        <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                        <button class="next-button" mat-button matStepperNext>Next</button>
+                      </div>
+                    </div>
+                  </mat-step>
+                  <mat-step label="Optimization">
+                    <div class="form-group step-form">
+                      <label for="stepOptimization">Optimization</label>
+                      <textarea
+                        type="text"
+                        class="form-control"
+                        name="stepOptimization"
+                        value={{step.stepOptimization}}
+                        (change)="valuechange($event,index)"
+                        required
+                      ></textarea>
+                      <div class="step-form-fields">
+                        <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                        <button class="next-button" mat-button matStepperNext>Next</button>
+                      </div>
+                    </div>
+                  </mat-step>
+                  <mat-step label="Document">
+                    <div class="form-group step-form">
+                      <h2>Upload your documents</h2>
+                      <input 
+                        type="file" 
+                        name="images" 
+                        class="file" 
+                        multiple 
+                        (change)="selectMultipleFiles($event)" 
+                      />
+                      <button 
+                        type="submit" 
+                        class="upload-button" 
+                        (click)="onFilesSubmit(index)"
+                        [disabled]= "!(multipleFiles.length)"
+                        >Upload</button>
+                      <div class="step-form-fields">
+                        <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                        <button class="next-button" mat-button matStepperNext>Next</button>
+                      </div>
+                    </div>
+                  </mat-step>
+                  <mat-step label="Contributors">
+                    <div class="form-group step-form">
+                      <h2>Contributors</h2>
+                      <ul class="list">
+                        <li class="contributors-list" *ngFor="let contributor of step.stepContributors; let contributorIndex = index;">
+                          {{ contributor.name }}
+                          <button class="delete-button" (click)="removeContributor(index,contributorIndex)">Remove</button>
+                        </li>
+                      </ul>
+                      <div class="step-form-fields">
+                        <label for="step_contributors">Contributor</label>
+                        <select
+                          class="form-control"
+                          name="step_contributors"
+                          [(ngModel)]="contributor"
+                        >
+                          <option disabled>Select a contributor</option>
+                          <option *ngFor="let user of users" [value]="user.username">
+                            {{ user.username }}
+                          </option>
+                        </select>
+                      </div>
+                      <button 
+                        type="submit" 
+                        class="upload-button" 
+                        (click)="addContributor(index)"
+                        [disabled]= "(contributor === 'Select a contributor')"
+                      >Add</button>
+                      <div class="step-form-fields">
+                        <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                        <button class="next-button" mat-button matStepperNext>Next</button>
+                      </div>
+                    </div>
+                  </mat-step>
+                  <mat-step label="Done">
+                    <div class="form-group step-form">
+                      <button class="create-button" (click)="updateStep(step,index)">
+                        Update Step
+                      </button>
+                      <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                    </div>
+                  </mat-step>
+                </mat-horizontal-stepper>
+              </div>
+            </cdk-accordion-item>
+          </cdk-accordion>
+        </div>
+        <mat-horizontal-stepper linear [labelPosition]="'bottom'" #stepper>
+          <mat-step label="Name" [completed]="form.name && form.step_owner !== 'Select an owner' && form.deadlines !== null && form.deadlines !== ''">
+            <p class="error" *ngIf="error['name']">Please provide name, owner and deadline of step.</p>
+            <div class="form-group step-form">
+              <div class="step-form-fields">
+                <label for="name">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="name"
+                  [(ngModel)]="form.name"
+                  required
+                />
+              </div>
+              <div class="step-form-fields">
+                <label for="step_owner">Owner</label>
+                <select
+                  class="form-control"
+                  name="step_owner"
+                  [(ngModel)]="form.step_owner"
+                  required
+                >
+                  <option disabled>Select an owner</option>
+                  <option *ngFor="let user of users" [value]="user.username">
+                    {{ user.username }}
+                  </option>
+                </select>
+              </div>
+              <div class="step-form-fields">
+                <label for="deadlines">Deadlines</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="deadlines"
+                  [(ngModel)]="form.deadlines"
+                  required
+                />
+              </div>
+              <div class="step-form-fields">
+                <div></div>
+                <button 
+                  class="next-button" 
+                  mat-button 
+                  matStepperNext
+                  (click)="checkError('name')"
+                >
+                  Next
+                </button>
+              </div>
+        
+            </div>
+          </mat-step>
+          <mat-step label="Description">
+            <div class="form-group step-form">
+              <label for="description">Step Description</label>
+              <textarea
+                type="text"
+                class="form-control"
+                name="description"
+                [(ngModel)]="form.description"
+              ></textarea>
+              <div class="step-form-fields">
+                <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                <button 
+                  class="next-button" 
+                  mat-button 
+                  matStepperNext
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step label="Exceptions and associated risks">
+            <div class="form-group step-form">
+              <label for="exceptionsAndAssociatedRisks">Exceptions and associated risks</label>
+              <textarea
+                type="text"
+                class="form-control"
+                name="exceptionsAndAssociatedRisks"
+                [(ngModel)]="form.exceptionsAndAssociatedRisks"
+              ></textarea>
+              <div class="step-form-fields">
+                <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                <button class="next-button" mat-button matStepperNext
+                >Next</button>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step label="Optimization">
+            <div class="form-group step-form">
+              <label for="optimization">Optimization</label>
+              <textarea
+                type="text"
+                class="form-control"
+                name="optimization"
+                [(ngModel)]="form.optimization"
+              ></textarea>
+              <div class="step-form-fields">
+                <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                <button class="next-button" mat-button matStepperNext
+                >Next</button>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step label="Document">
+            <div class="form-group step-form">
+              <h2>Upload your documents</h2>
+              <input 
+                type="file" 
+                class="file" 
+                name="files" 
+                multiple 
+                (change)="selectMultipleFiles($event)" 
+              />
+              <button 
+                type="submit" 
+                class="upload-button" 
+                (click)="onFilesSubmit(-1)"
+                [disabled]= "!(multipleFiles.length)"
+              >Upload</button>
+              <div class="step-form-fields">
+                <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                <button class="next-button" mat-button matStepperNext>Next</button>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step label="Contributors">
+            <div class="form-group step-form">
+              <h2>Contributors</h2>
+              <ul class="list">
+                <li class="contributors-list" *ngFor="let contributor of form.contributors; let index = index;">
+                  {{ contributor.name }}
+                  <button class="delete-button" (click)="removeContributor(index,-1)">Remove</button>
+                </li>
+              </ul>
+              <div class="step-form-fields">
+                <label for="step_contributors">Contributor</label>
+                <select
+                  class="form-control"
+                  name="step_contributors"
+                  [(ngModel)]="contributor"
+                >
+                  <option disabled>Select a contributor</option>
+                  <option *ngFor="let user of users" [value]="user.username">
+                    {{ user.username }}
+                  </option>
+                </select>
+              </div>
+              <button 
+                type="submit" 
+                class="upload-button" 
+                (click)="addContributor(-1)"
+                [disabled]= "!(contributor)"
+              >Add</button>
+              <div class="step-form-fields">
+                <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                <button class="next-button" mat-button matStepperNext>Next</button>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step label="Done">
+            <div class="form-group step-form">
+              <button class="create-button" (click)="onCreateStep(stepper)">
+                Create Step
+              </button>
+              <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+        <p class="error" *ngIf="error['process']">Please add name, informed person and at least one step to the process</p>
+        <button *ngIf="!id" class="create-button" (click)="onCreateProcess()">
+          Create Process
+        </button>
+        <button *ngIf="id" class="create-button" (click)="onUpdateProcess()">
+          Update Process
+        </button>
+        <div id="snackbar">Files uploaded successfully!</div>
+        <div id="snackbar2">Process uploaded successfully!</div>
+        <div id="snackbar3">Step uploaded successfully!</div>
+      </form>
+  </div>
+</div>

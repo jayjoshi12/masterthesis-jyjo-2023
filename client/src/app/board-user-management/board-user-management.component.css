@@ -1,0 +1,88 @@
+.wrapper{
+    padding: 50px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  gap: 20px;
+  background-color: #c6d8df;
+  font-family: 'Roboto', sans-serif;
+}
+#header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-between;
+    width: 100%;
+}
+.link{
+    text-decoration: none;
+    color: white;
+}
+#actions{
+    display: flex;
+    height: inherit;
+    align-items: center;
+    gap: 8px;
+}
+#edit-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #4b75ff;
+    color: white;
+    font-size: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+    max-height: 30px;
+}
+#edit-button:hover{
+    background-color: #3b5ed6;
+}
+#delete-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #ff4b4b;
+    color: white;
+    font-size: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+    max-height: 30px;
+}
+#delete-button:hover{
+    background-color: #d63b3b;
+}
+#create-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #4BB543;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 20px;
+    box-shadow: -1px 0px 8px -1px rgba(255, 255, 255, 0.75);
+    -webkit-box-shadow: -1px 0px 8px -1px rgba(255, 255, 255, 0.75);
+    -moz-box-shadow: -1px 0px 8px -1px rgba(255, 255, 255, 0.75);
+}
+#create-button:hover{
+    background-color: #42d467;
+    box-shadow: -1px 0px 8px -1px rgba(0,0,0,0.75);
+    -webkit-box-shadow: -1px 0px 8px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 0px 8px -1px rgba(0,0,0,0.75);
+}

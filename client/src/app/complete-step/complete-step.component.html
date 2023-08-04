@@ -1,0 +1,147 @@
+<div class="wrapper">
+  <div class="container">
+      <form
+        name="form"
+        #f="ngForm"
+        novalidate
+      >
+        <div id="header">
+          <h1>Process: {{form.processName}}</h1>
+        </div>
+        <mat-horizontal-stepper linear [labelPosition]="'bottom'" #stepper>
+          <mat-step label="Name">
+            <div class="form-group step-form">
+              <div class="step-form-fields">
+                <label for="name">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="name"
+                  [(ngModel)]="form.name"
+                  [disabled] = "true"
+                />
+              </div>
+              <div class="step-form-fields">
+                <label for="step_owner">Owner</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="step_owner"
+                  [(ngModel)]="form.step_owner"
+                  [disabled] = "true"
+                />
+              </div>
+              <div class="step-form-fields">
+                <label for="deadlines">Deadlines</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="deadlines"
+                  [(ngModel)]="form.deadlines"
+                  [disabled] = "true"
+                />
+              </div>
+              <div class="step-form-fields">
+                <div></div>
+                <button 
+                  class="next-button" 
+                  mat-button 
+                  matStepperNext
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step label="Description" [completed]="form.description !== null && form.description !== ''">
+            <p class="error" *ngIf="error['description']">Please provide description of step.</p>
+            <div class="form-group step-form">
+              <label for="description">Step Description</label>
+              <textarea
+                type="text"
+                class="form-control"
+                name="description"
+                [(ngModel)]="form.description"
+                required
+              ></textarea>
+              <div class="step-form-fields">
+                <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                <button 
+                  class="next-button" 
+                  mat-button 
+                  matStepperNext
+                  (click)="checkError('description')"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step label="Exceptions and associated risks" [completed]="form.exceptionsAndAssociatedRisks !== null && form.exceptionsAndAssociatedRisks !== ''">
+            <p class="error" *ngIf="error['exceptionsAndAssociatedRisks']">Please provide exceptions and associated risks of step.</p>
+            <div class="form-group step-form">
+              <label for="exceptionsAndAssociatedRisks">Exceptions and associated risks</label>
+              <textarea
+                type="text"
+                class="form-control"
+                name="exceptionsAndAssociatedRisks"
+                [(ngModel)]="form.exceptionsAndAssociatedRisks"
+                required
+              ></textarea>
+              <div class="step-form-fields">
+                <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                <button class="next-button" mat-button matStepperNext (click)="checkError('exceptionsAndAssociatedRisks')">Next</button>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step label="Optimization" [completed]="form.optimization !== null && form.optimization !== ''">
+            <p class="error" *ngIf="error['optimization']">Please provide optimization of step.</p>
+            <div class="form-group step-form">
+              <label for="optimization">Optimization</label>
+              <textarea
+                type="text"
+                class="form-control"
+                name="optimization"
+                [(ngModel)]="form.optimization"
+                required
+              ></textarea>
+              <div class="step-form-fields">
+                <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+                <button class="next-button" mat-button matStepperNext (click)="checkError('optimization')">Next</button>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step label="Document">
+            <div class="form-group step-form">
+              <h2>Upload your documents</h2>
+              <input 
+                type="file" 
+                class="file" 
+                name="files" 
+                multiple 
+                (change)="selectMultipleFiles($event)" 
+              />
+              <button 
+                type="submit" 
+                class="upload-button" 
+                (click)="onFilesSubmit()"
+                [disabled]= "!(multipleFiles.length)"
+              >
+                Upload
+              </button>
+              <button class="prev-button" mat-button matStepperPrevious>Previous</button>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+        <p class="error" *ngIf="error['stepCompleted']">Please provide the relevant details.</p>
+        <button 
+          class="complete-button" 
+          (click)="onCompleteStep(stepper)"
+        >
+          Complete Step
+        </button>
+        <div id="snackbar">Files uploaded successfully!</div>
+        <div id="snackbar2">Step updated successfully!</div>
+      </form>
+  </div>
+</div>
